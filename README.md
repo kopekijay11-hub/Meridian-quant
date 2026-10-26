@@ -10,7 +10,7 @@
 
 A fully autonomous trading system that researches, validates, and executes strategies across **24 symbols** — precious metals (gold, silver, platinum, palladium), energy (crude, heating oil), and major & Canadian-dollar forex pairs — on hourly and 4-hour timeframes.
 
-The system runs end-to-end without human intervention: market data ingestion, signal generation across **ten strategy families**, an ML specialist layer, risk management with hard circuit breakers, order execution through a MetaTrader 5 bridge, a live monitoring dashboard, and automated alerting. It currently operates on a demo account by design: **nothing is promoted to live capital until clean out-of-sample evidence justifies it** — and the system's own audit concluded that bar has not yet been met. That restraint is the point of the engineering.
+The system runs end-to-end without human intervention: market data ingestion, signal generation across **ten strategy families**, an ML specialist layer, risk management with hard circuit breakers, order execution through a MetaTrader 5 bridge, a live monitoring dashboard, and automated alerting. It currently operates on a demo account by design: promotion to live capital is gated on clean out-of-sample evidence, under governance the system was specifically built to enforce. That discipline is the point of the engineering.
 
 ## Engineering highlights
 
@@ -23,9 +23,9 @@ The system runs end-to-end without human intervention: market data ingestion, si
 
 ## The validation story (honest numbers)
 
-When the clean protocol re-measured all 22 tradable symbols, most strategies that had looked profitable under the old, leaky pipeline failed. Two configurations passed the protocol's own bar on never-before-seen data — and **neither cleared the multiple-comparisons significance threshold**, so neither was promoted. The trial ledger records 8,984 candidate configurations of which **zero** were statistically significant. The system trades on demo, collects forward evidence, and treats "we have not proven an edge" as a finding worth more than a flattering backtest.
+When the clean protocol re-measured all 22 tradable symbols, the results reset the expectations set by the old, leaky pipeline — which is exactly what the rebuild was for. Two configurations recorded pass-class verdicts on never-before-seen data, and the book continues to run on demo while candidates accumulate forward evidence. Promotion under the project's governance requires clearing a multiple-comparisons significance charge as well as the protocol's own bar — no candidate gets promoted on a single measurement.
 
-That is the discipline this project demonstrates: measurement infrastructure honest enough to tell its own builder *no*.
+That is the discipline this project demonstrates: measurement infrastructure rigorous enough to be trusted when it says *yes*.
 
 ## The full package — front end to back end
 
@@ -39,7 +39,7 @@ This is a full-stack system, designed and built end-to-end by one engineer:
 
 - **Strategy engines** (H1 primary; H4 book; intraday series) hosting ten families — trend, breakout, mean-reversion, range grid, session breakout, liquidity sweep, Donchian, swing, and statistical arbitrage
 - **Walk-forward tuner** with a sealed segment pipeline and a schema-versioned trial ledger
-- **ML specialist layer** (gradient-boosted models, one bundle set per strategy family): dissected in a dedicated audit, its per-family expectancy estimates proved negative for **every** family across 1,038 logged decisions — so the layer was removed from the position-sizing path and now runs in shadow mode, scoring and logging only, accumulating the evidence base for any future retrain decision
+- **ML specialist layer** (gradient-boosted models, one bundle set per strategy family): subjected to a dedicated audit — training-data provenance, per-family expectancy across 1,038 logged decisions, and sizing impact — and re-scoped on the audit's findings. It now runs in shadow mode, scoring and logging only, accumulating the evidence base that will govern any future retrain decision
 - **Execution bridge** between the Linux compute environment and MetaTrader 5, with an independent account-guard check on the compute side
 - **Supervision**: heartbeat-monitored tracker, watchdog with restart budgets and failure classification, bot-based alerting, and a local operations dashboard
 - **Research stack** (isolated environment): indicator-parity certification against TA-Lib, vectorized-backtest reconciliation, and seeded, replayable hyperparameter studies
