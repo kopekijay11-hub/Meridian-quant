@@ -1,4 +1,4 @@
-# Meridian Quant — Autonomous Algorithmic Trading System
+# CosmoQuant — Autonomous Algorithmic Trading System
 
 **An institutional-grade, multi-strategy trading platform — engineered, audited, and validated under a sealed out-of-sample protocol.**
 
