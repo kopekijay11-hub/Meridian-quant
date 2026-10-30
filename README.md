@@ -2,6 +2,8 @@
 
 **An institutional-grade, multi-strategy trading platform — engineered, audited, and validated under a sealed out-of-sample protocol.**
 
+[![CI — private production repo: green, 1,600+ tests](https://img.shields.io/badge/CI_%C2%B7_private_production_repo-green_%C2%B7_1%2C600%2B_tests-brightgreen)](https://github.com/kopekijay11-hub/OrbitAlgo/blob/main/docs/audit-summary.md)
+
 > This repository is a **showcase**. The production codebase is private; what is documented here is the engineering: the architecture, the validation discipline, and the verified results. No strategy code, configuration, or credentials are published.
 
 ---
