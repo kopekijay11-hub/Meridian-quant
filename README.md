@@ -74,5 +74,39 @@ Every seat comes from a configuration the sealed protocol has measured — no ar
 
 When the clean protocol re-measured all 22 tradable symbols, the results reset the expectations set by the old, leaky pipeline — which is exactly what the rebuild was for. On the H1 book, GOLD trend and SILVER trend recorded pass-class verdicts on never-before-seen data (GOLD trend: +6.92% on its sealed holdout across 146 trades); in the H4 timeframe program, CADCHF validated outright and now trades as one of the book's highest-conviction seats. The book continues to run on demo while candidates accumulate forward evidence. Promotion under the project's governance requires clearing a multiple-comparisons significance charge as well as the protocol's own bar — no candidate gets promoted on a single measurement.
 
-That is the discipline this project demonstrates:
-...[truncated 4427 chars]
+That is the discipline this project demonstrates: measurement infrastructure rigorous enough to be trusted when it says *yes*.
+
+## The full package — front end to back end
+
+This is a full-stack system, designed and built end-to-end by one engineer:
+
+- **Front end** — a real-time operations dashboard (NiceGUI web UI): live positions, equity, per-strategy-arm state, risk-breaker status, and alerting, served locally by design. It is the operator's window into everything below it.
+- **Middle layer** — an execution bridge API (FastAPI, token-authenticated REST with idempotent order endpoints) connecting the Linux compute environment (WSL2) to a Windows-hosted MetaTrader 5 terminal (demo account), with an independent account-guard check on the compute side.
+- **Back end** — the strategy engines, the walk-forward research pipeline with its schema-versioned trial ledger, the risk layer with hard circuit breakers, a SQLite trade journal, and a heartbeat-monitored watchdog supervisor.
+
+## Architecture at a glance
+
+- **Strategy engines** (H1 primary; H4 book; intraday series) hosting ten families — trend, breakout, mean-reversion, range grid, session breakout, liquidity sweep, Donchian, swing, and statistical arbitrage
+- **Market-data layer**: one shared accessor over a checksummed corpus (234 files, 39 symbols × 6 timeframes, ~551 MiB, 2018–present) with a sha256 manifest — every consumer reads through the same door, and the layer's equivalence to the parsers it replaced is hash-proven
+- **Walk-forward tuner** with a sealed segment pipeline and a schema-versioned trial ledger
+- **ML layer** (gradient-boosted models): an expected-R model (LightGBM) serves in an observer role informing position sizing, and a specialist layer — one bundle set per strategy family — runs in permanent shadow mode after a dedicated audit of its training-data provenance, per-family expectancy, and sizing impact, scoring and logging only while it accumulates the evidence base that will govern any future retrain decision
+- **Execution bridge** between the Linux compute environment and MetaTrader 5, with token authentication held in a dedicated gitignored file, fingerprint-verified health checks, and an independent account-guard check on the compute side
+- **Supervision**: systemd user services with linger (tracker, watchdog, dashboard) under supervised restarts, a Windows Bridge Guardian that relaunches the MT5 bridge within 10 seconds of a crash, heartbeat monitoring with failure classification, bot-based alerting, and a local operations dashboard
+- **Research stack** (isolated environment): indicator-parity certification against TA-Lib, vectorized-backtest reconciliation, and seeded, replayable hyperparameter studies
+
+## Roadmap and current status
+
+- **Phase 1 — Research and validation infrastructure.** Complete: the sealed SELECT → VALIDATE → HOLDOUT protocol, the auditable trial ledger, and the audit cycle that rebuilt the measurement pipeline after selection leakage was found in it.
+- **Phase 2 — Autonomous demo deployment.** Live: the eleven-arm book runs unattended on a MetaTrader 5 demo account under the supervision stack described above.
+- **Phase 3 — Evidence accumulation and measurement programmes.** In progress: pre-registered pattern screening under the sealed protocol, measured seating candidates, and the forward demo evidence the book accumulates trade by trade.
+- **Phase 4 — Operational hardening.** Ongoing: fail-closed bridge authentication, mutual tracker–watchdog supervision, and reboot-proofing are live and drill-proven; a full unattended logon-recovery drill is the remaining formal proof.
+
+Promotion to live capital is deliberately **not** a roadmap phase with a date: it is a governance decision, gated on clean out-of-sample evidence under the protocol in [docs/validation.md](docs/validation.md).
+
+## Skills demonstrated
+
+Python (large-system design) · full-stack delivery (web dashboard UI · REST API bridge · execution engines · data layer) · pytest at scale · type-safe engineering (mypy ratchet) · CI/CD · statistical validation & multiple-testing discipline · walk-forward / out-of-sample methodology · API & bridge integration (MetaTrader 5) · Linux/WSL systems work · systemd service supervision · incident root-cause analysis · technical documentation and audit reporting
+
+---
+
+*Built and operated by one self-taught engineer. The private repository contains the full implementation, the complete audit trail, and the trial ledger; it is available for review in the context of employment or contract discussions.*
