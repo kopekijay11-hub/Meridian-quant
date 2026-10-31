@@ -8,6 +8,15 @@ The system is audited the way it is built: repeatedly, adversarially, and with t
 - **Clean-board re-measurement** — all 22 tradable symbols re-measured under the sealed protocol. Verdicts were accepted as measured, including the uncomfortable ones (see [validation.md](validation.md)).
 - **Cleanup and re-audit (October 29, 2026)** — graded **82/100 (B)** under an expanded rubric that newly scored *runtime-activation evidence* (does the running desk provably match the code?) and the *structured-logging standard*. The six-point change from the prior 88/100 reflects the wider rubric surfacing visibility gaps — a book that could not yet announce its own contents — not a regression in the underlying systems. Those gaps were then closed by the bookkeeping work below, and re-graded by drill.
 
+## October 30–31, 2026 — research-platform expansion
+
+The audit standard — fixed, activated, and *proven* — was applied to a four-part expansion of the research platform, each part landed on its own branch behind a green CI gate:
+
+- **Idea foundry built** — governed candidate generation (12,420-configuration grammar), a permanent name registry, a failure archive, and a measurement adapter reusing the sealed funnel. Its first smoke batch was refused by the eligibility gate exactly as designed: the out-of-sample slices it reached for were already spent, and the gate does not negotiate.
+- **Certification-budget census** — the full trial ledger (122,405 rows) streamed and reconciled against known anchors, mapping the unspent out-of-sample budget of every symbol × timeframe before any new programme was scoped.
+- **Data platform completion** — the corpus grew from 234 to 273 series (39 symbols × 7 timeframes, ~1.3 GB), including five years of 5-minute data for every symbol; the checksum manifest verifies 273/273. A pre-pull spot-verification gate refuted the census's own depth classification on a sample, and the backfill it made pointless was cancelled rather than executed — the verification layer catching its own side's error is the system working as intended.
+- **Test hermeticity** — research smoke tests that silently depended on the local data corpus were made to skip explicitly, with the reason stated, when the corpus is absent — returning the affected branch to green in CI, where the corpus does not exist.
+
 ## Findings and how they were dispositioned
 
 A standing backlog tracks every finding with a status the operator can audit. Recent closures illustrate the standard a finding must meet to close — fixed, activated, and *proven*, not merely patched:
